@@ -6,12 +6,26 @@
         <th>Type</th>
         <th>State</th>
       </tr>
-      <tr v-for="device in mockedDevices.allDevices" :key="device.id">
+      <tr v-for="device in mockedDevices.allDevices" :key="device.id" @click="changeVisibility(device)">
         <td>{{ device.name }}</td>
         <td>{{ device.type }}</td>
         <td>{{ device.connectionState }}</td>
       </tr>
     </table>    
+    <div v-if="chosenDevice" id="deviceStatusPopup">
+      <div v-if="chosenDevice.type === 'bulb'">
+          is turned on: {{ chosenDevice.isTurnedOn }} <br>
+          brightness: {{ chosenDevice.brightness }} <br>
+          color: {{ chosenDevice.color }}
+      </div>
+      <div v-if="chosenDevice.type === 'outlet'">
+          is turned on: {{ chosenDevice.isTurnedOn }} <br>
+          power consumption: {{ chosenDevice.powerConsumption }} W
+      </div>
+      <div v-if="chosenDevice.type === 'temperatureSensor'">
+          temperature: {{ chosenDevice.temperature }}℃ <br>
+      </div>
+    </div>
   </div>    
 </template>
 
@@ -19,6 +33,7 @@
 export default{
   data() {
     return {
+      chosenDevice: null,
       mockedDevices: {
         allDevices: [],
         smartBulbs: [
@@ -68,13 +83,16 @@ export default{
       this.mockedDevices.allDevices.push(...this.mockedDevices.smartBulbs);
       this.mockedDevices.allDevices.push(...this.mockedDevices.smartOutlets);
       this.mockedDevices.allDevices.push(...this.mockedDevices.SmartTemperatureSensor);
+    },
+
+    changeVisibility(device){
+      this.chosenDevice = device;
     }
   },
   mounted() {
     this.mixAllDevicesInOneArray();
   }
 }
-
 </script>
 
 <style scoped>
@@ -82,17 +100,33 @@ export default{
   margin: auto;
   margin-top: 100px;
   border-spacing: 0;
+  margin-bottom: 20px;
 }
+
 #mainTemplateContainer table td,
 #mainTemplateContainer table th {
   padding: 10px;
 }
+
 #mainTemplateContainer table th {
   border-bottom: 1px solid black;
 }
+
 #mainTemplateContainer table tr:hover td {
-  background-color: black;
+  background-color: #a8aaad;
   color: white;
   cursor: pointer;
+}
+
+#deviceStatusPopup {
+  width: 400px;
+  height: 100px;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: auto;
+}
+
+#deviceStatusPopup > div {
+  margin-top: 20px;
 }
 </style>
