@@ -6,13 +6,14 @@
         <th>Type</th>
         <th>State</th>
       </tr>
-      <tr v-for="device in mockedDevices.allDevices" :key="device.id" @click="changeVisibility(device)">
+      <tr v-for="device in mockedDevices.allDevices" :key="device.id" @click="onChangeVisibility(device)">
         <td>{{ device.name }}</td>
         <td>{{ device.type }}</td>
         <td>{{ device.connectionState }}</td>
       </tr>
     </table>    
     <div v-if="chosenDevice" id="deviceStatusPopup">
+      <div class="closeDialogButton" @click="onCloseDialog()">X</div>
       <div v-if="chosenDevice.type === 'bulb'">
           is turned on: {{ chosenDevice.isTurnedOn }} <br>
           brightness: {{ chosenDevice.brightness }} <br>
@@ -85,8 +86,12 @@ export default{
       this.mockedDevices.allDevices.push(...this.mockedDevices.SmartTemperatureSensor);
     },
 
-    changeVisibility(device){
+    onChangeVisibility(device){
       this.chosenDevice = device;
+    },
+
+    onCloseDialog() {
+      this.chosenDevice = null;
     }
   },
   mounted() {
@@ -124,9 +129,17 @@ export default{
   border: 1px solid black;
   border-radius: 5px;
   margin: auto;
+  position: absolute;
+  z-index: 1;
+  margin: auto;
+  top: 0; left: 0; bottom: 0; right: 0;
+  padding-top: 20px;
 }
 
-#deviceStatusPopup > div {
-  margin-top: 20px;
+#deviceStatusPopup .closeDialogButton {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  cursor: pointer;
 }
 </style>
