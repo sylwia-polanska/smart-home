@@ -6,13 +6,16 @@
         <th>Type</th>
         <th>State</th>
       </tr>
-      <tr v-for="device in mockedDevices.allDevices" :key="device.id" @click="onChangeVisibility(device)">
+      <tr 
+        v-for="device in mockedDevices.allDevices" 
+        :key="device.id" 
+        @click="onChooseDevice(device)">
         <td>{{ device.name }}</td>
         <td>{{ device.type }}</td>
         <td>{{ device.connectionState }}</td>
       </tr>
     </table>    
-    <div v-if="chosenDevice" id="deviceStatusPopup">
+    <div v-if="chosenDevice" id="deviceStatusPopup" v-bind:class="{ hidden: isModalHidden }">
       <div class="closeDialogButton" @click="onCloseDialog()">X</div>
       <div v-if="chosenDevice.type === 'bulb'">
           is turned on: {{ chosenDevice.isTurnedOn }} <br>
@@ -36,6 +39,7 @@ export default{
   inject: ["interactjs"],
   data() {
     return {
+      isModalHidden: true,
       chosenDevice: null,
       mockedDevices: {
         allDevices: [],
@@ -88,12 +92,13 @@ export default{
       this.mockedDevices.allDevices.push(...this.mockedDevices.SmartTemperatureSensor);
     },
 
-    onChangeVisibility(device){
+    onChooseDevice(device){
       this.chosenDevice = device;
+      this.isModalHidden = false;
     },
 
     onCloseDialog() {
-      this.chosenDevice = null;
+      this.isModalHidden = true;
     },
 
     initDraggingForModal() {
@@ -150,6 +155,7 @@ export default{
   margin: auto;
   top: 0; left: 0; bottom: 0; right: 0;
   padding-top: 20px;
+  background-color: white;
 }
 
 #deviceStatusPopup .closeDialogButton {
@@ -157,5 +163,9 @@ export default{
   right: 5px;
   top: 5px;
   cursor: pointer;
+}
+
+.hidden {
+  display: none;
 }
 </style>
