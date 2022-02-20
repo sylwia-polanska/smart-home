@@ -7,7 +7,7 @@
         <th>State</th>
       </tr>
       <tr 
-        v-for="device in mockedDevices.allDevices" 
+        v-for="device in devices" 
         :key="device.id" 
         @click="onChooseDevice(device)">
         <td>{{ device.name }}</td>
@@ -34,7 +34,8 @@
 </template>
 
 <script>
-import devicesJson from './devices.json'
+import devicesJson from '../mockData/devices.json'
+import devicesWithDetailsJson from '../mockData/devicesWithDetails.json'
 import interact from 'interactjs';
 export default{
   inject: ["interactjs"],
@@ -42,22 +43,15 @@ export default{
     return {
       isModalHidden: true,
       chosenDevice: null,
-      mockedDevices: {
-        allDevices: [], 
-        ...devicesJson
-      }
+      devices: []
     }
   },
   methods: {
-    mixAllDevicesInOneArray() {
-      this.mockedDevices.allDevices.push(...this.mockedDevices.smartBulbs);
-      this.mockedDevices.allDevices.push(...this.mockedDevices.smartOutlets);
-      this.mockedDevices.allDevices.push(...this.mockedDevices.SmartTemperatureSensor);
-    },
-
     onChooseDevice(device){
-      this.chosenDevice = device;
-      this.isModalHidden = false;
+      this.fetchDeviceDetails(device).then(() => {
+        this.chosenDevice = device;
+        this.isModalHidden = false;
+      });      
     },
 
     onCloseDialog() {
@@ -75,10 +69,32 @@ export default{
           }
         }
       });
+    },
+
+    fetchDevices() {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          this.devices = devicesJson;
+          resolve();
+        }, 1000);
+      });
+    },
+
+    fetchDeviceDetails(device) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          const fetchedDevice = devicesWithDetailsJson
+            .find(deviceFromEndpoint => deviceFromEndpoint.id === device.id);
+          for (const key in fetchedDevice) {
+            device[key] = fetchedDevice[key];
+          }
+          resolve();
+        }, 1000);
+      });      
     }
   },
   mounted() {
-    this.mixAllDevicesInOneArray();
+    this.fetchDevices();
     this.initDraggingForModal();
   }
 }
