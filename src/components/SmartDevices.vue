@@ -1,5 +1,8 @@
 <template>
   <div id="mainTemplateContainer">
+    <div id="busyIndicator" v-bind:class="{ hidden: !isBusyIndicatorVisible }">
+      <img src="../assets/loading.gif" alt="loading">
+    </div>
     <table>
       <tr>
         <th>Name</th>
@@ -41,6 +44,7 @@ export default{
   inject: ["interactjs"],
   data() {
     return {
+      isBusyIndicatorVisible: true, 
       isModalHidden: true,
       chosenDevice: null,
       devices: []
@@ -48,9 +52,11 @@ export default{
   },
   methods: {
     onChooseDevice(device){
+      this.displayBusyIndicator();
       this.fetchDeviceDetails(device).then(() => {
         this.chosenDevice = device;
         this.isModalHidden = false;
+        this.hideBusyIndicator();
       });      
     },
 
@@ -91,16 +97,45 @@ export default{
           resolve();
         }, 1000);
       });      
+    },
+
+    displayBusyIndicator() {
+      this.isBusyIndicatorVisible = true;
+    },
+
+    hideBusyIndicator() {
+      this.isBusyIndicatorVisible = false;
     }
   },
   mounted() {
-    this.fetchDevices();
+    this.fetchDevices().then(() => {
+      this.hideBusyIndicator()
+    });
     this.initDraggingForModal();
   }
 }
 </script>
 
 <style scoped>
+#busyIndicator {
+  position: fixed;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  background-color: #c0c0c04d;
+  top: 0;
+  left: 0;
+}
+
+#busyIndicator img {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;  
+  margin: auto;
+}
+
 table {
   table-layout: fixed;
 }
