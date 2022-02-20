@@ -56,6 +56,9 @@ export default{
   },
   methods: {
     onChooseDevice(device){
+      if (this.intervals.fetchDetails) {
+        clearInterval(this.intervals.fetchDetails);
+      }
       this.displayBusyIndicator();
       this.fetchDeviceDetails(device).then(() => {
         this.chosenDevice = device;
