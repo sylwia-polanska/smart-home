@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import devicesJson from './devices.json'
 import interact from 'interactjs';
 export default{
   inject: ["interactjs"],
@@ -42,46 +43,8 @@ export default{
       isModalHidden: true,
       chosenDevice: null,
       mockedDevices: {
-        allDevices: [],
-        smartBulbs: [
-          {
-            type: 'bulb',
-            id: '45255',
-            name: 'bulb1',
-            connectionState: 'connected', 
-            isTurnedOn: true,
-            brightness: 92,
-            color: 'blue'
-          },
-          {
-            type: 'bulb',
-            id: '23423',
-            name: 'bulb2',
-            connectionState: 'connected', 
-            isTurnedOn: true,
-            brightness: 90,
-            color: 'green'
-          }
-        ],
-        smartOutlets: [
-          {
-            type: 'outlet',
-            id: '34535',
-            name: 'outlet1',
-            connectionState: 'disconnected',
-            isTurnedOn: 'false',
-            powerConsumption: 20,
-          }
-        ],
-        SmartTemperatureSensor: [
-          {
-            type: 'temperatureSensor',
-            id: '34342',
-            name: 'temperaturesensor',
-            connectionState: 'poorConnection',
-            temperature: 25,
-          }
-        ]
+        allDevices: [], 
+        ...devicesJson
       }
     }
   },
@@ -122,8 +85,13 @@ export default{
 </script>
 
 <style scoped>
+table {
+  table-layout: fixed;
+}
+
 #mainTemplateContainer table {
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 100px;
   border-spacing: 0;
   margin-bottom: 20px;
@@ -132,6 +100,7 @@ export default{
 #mainTemplateContainer table td,
 #mainTemplateContainer table th {
   padding: 10px;
+  word-wrap: break-word;
 }
 
 #mainTemplateContainer table th {
@@ -149,10 +118,9 @@ export default{
   height: 100px;
   border: 1px solid black;
   border-radius: 5px;
-  margin: auto;
+  margin:auto;
   position: absolute;
   z-index: 1;
-  margin: auto;
   top: 0; left: 0; bottom: 0; right: 0;
   padding-top: 30px;
   background-color: white;
@@ -170,5 +138,17 @@ export default{
 
 .hidden {
   display: none;
+}
+
+@media only screen and (max-width: 440px) {
+  #deviceStatusPopup {
+    width: 75%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  #mainTemplateContainer table {
+    width: 100%;
+  }
 }
 </style>
