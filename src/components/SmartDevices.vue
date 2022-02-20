@@ -154,8 +154,11 @@ export default{
   z-index: 1;
   margin: auto;
   top: 0; left: 0; bottom: 0; right: 0;
-  padding-top: 20px;
+  padding-top: 30px;
   background-color: white;
+  overflow: auto;
+  touch-action: none;
+  user-select: none;
 }
 
 #deviceStatusPopup .closeDialogButton {

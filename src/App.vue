@@ -1,14 +1,14 @@
 <template>
-  <HelloWorld/>
+  <SmartDevices/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import SmartDevices from './components/SmartDevices.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    SmartDevices
   }
 }
 </script>
