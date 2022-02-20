@@ -47,7 +47,11 @@ export default{
       isBusyIndicatorVisible: true, 
       isModalHidden: true,
       chosenDevice: null,
-      devices: []
+      devices: [],
+      intervals: {
+        fetchDetails: null,
+        fetchDevices: null
+      }      
     }
   },
   methods: {
@@ -58,10 +62,16 @@ export default{
         this.isModalHidden = false;
         this.hideBusyIndicator();
       });      
+      this.intervals.fetchDetails = setInterval(() => {
+        this.fetchDeviceDetails(device).then(() => {
+          this.chosenDevice = device;
+        });
+      }, 5000);
     },
 
     onCloseDialog() {
       this.isModalHidden = true;
+      clearInterval(this.intervals.fetchDetails);
     },
 
     initDraggingForModal() {
@@ -111,7 +121,14 @@ export default{
     this.fetchDevices().then(() => {
       this.hideBusyIndicator()
     });
+    this.intervals.fetchDevices = setInterval(() => {
+      this.fetchDevices();
+    }, 5000);
     this.initDraggingForModal();
+  },
+  unmounted() {
+    clearInterval(this.intervals.fetchDevices);
+    clearInterval(this.intervals.fetchDetails);
   }
 }
 </script>
