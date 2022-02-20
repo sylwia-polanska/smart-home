@@ -3,7 +3,7 @@
     <div id="busyIndicator" v-bind:class="{ hidden: !isBusyIndicatorVisible }">
       <img src="../assets/loading.gif" alt="loading">
     </div>
-    <table>
+    <table v-if="devices.length > 0">
       <tr>
         <th>Name</th>
         <th>Type</th>
@@ -17,20 +17,20 @@
         <td>{{ device.type }}</td>
         <td>{{ device.connectionState }}</td>
       </tr>
-    </table>    
+    </table>
     <div v-if="chosenDevice" id="deviceStatusPopup" v-bind:class="{ hidden: isModalHidden }">
       <div class="closeDialogButton" @click="onCloseDialog()">X</div>
       <div v-if="chosenDevice.type === 'bulb'">
-          is turned on: {{ chosenDevice.isTurnedOn }} <br>
-          brightness: {{ chosenDevice.brightness }} <br>
-          color: {{ chosenDevice.color }}
+          is turned on: <b>{{ chosenDevice.isTurnedOn }}</b><br>
+          brightness: <b>{{ chosenDevice.brightness }}</b><br>
+          color: <b>{{ chosenDevice.color }}</b>
       </div>
       <div v-if="chosenDevice.type === 'outlet'">
-          is turned on: {{ chosenDevice.isTurnedOn }} <br>
-          power consumption: {{ chosenDevice.powerConsumption }} W
+          is turned on: <b>{{ chosenDevice.isTurnedOn }}</b><br>
+          power consumption: <b>{{ chosenDevice.powerConsumption }} W</b>
       </div>
       <div v-if="chosenDevice.type === 'temperatureSensor'">
-          temperature: {{ chosenDevice.temperature }}℃ <br>
+          temperature: <b>{{ chosenDevice.temperature }} ℃</b><br>
       </div>
     </div>
   </div>    
