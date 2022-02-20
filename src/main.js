@@ -1,4 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 
-createApp(App).mount('#app')
+import interact from 'interactjs'
+
+const app = createApp(App);
+app.provide("interactjs", interact);
+app.mount('#app');

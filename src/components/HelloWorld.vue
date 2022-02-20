@@ -31,7 +31,9 @@
 </template>
 
 <script>
+import interact from 'interactjs';
 export default{
+  inject: ["interactjs"],
   data() {
     return {
       chosenDevice: null,
@@ -92,10 +94,24 @@ export default{
 
     onCloseDialog() {
       this.chosenDevice = null;
+    },
+
+    initDraggingForModal() {
+      const position = { x: 0, y: 0 };
+      interact('#deviceStatusPopup').draggable({
+        listeners: {
+          move (event) {
+            position.x += event.dx;
+            position.y += event.dy;
+            event.target.style.transform = `translate(${position.x}px, ${position.y}px)`;
+          }
+        }
+      });
     }
   },
   mounted() {
     this.mixAllDevicesInOneArray();
+    this.initDraggingForModal();
   }
 }
 </script>
