@@ -3,6 +3,7 @@
 </template>
 
 <script>
+document.title = 'Smart Devices';
 import SmartDevices from './components/SmartDevices.vue'
 
 export default {

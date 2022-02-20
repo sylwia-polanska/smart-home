@@ -21,16 +21,16 @@
     <div v-if="chosenDevice" id="deviceStatusPopup" v-bind:class="{ hidden: isModalHidden }">
       <div class="closeDialogButton" @click="onCloseDialog()">X</div>
       <div v-if="chosenDevice.type === 'bulb'">
-          is turned on: <b>{{ chosenDevice.isTurnedOn }}</b><br>
-          brightness: <b>{{ chosenDevice.brightness }}</b><br>
-          color: <b>{{ chosenDevice.color }}</b>
+        is turned on: <b>{{ chosenDevice.isTurnedOn }}</b><br>
+        brightness: <b>{{ chosenDevice.brightness }}</b><br>
+        color: <b>{{ chosenDevice.color }}</b>
       </div>
       <div v-if="chosenDevice.type === 'outlet'">
-          is turned on: <b>{{ chosenDevice.isTurnedOn }}</b><br>
-          power consumption: <b>{{ chosenDevice.powerConsumption }} W</b>
+        is turned on: <b>{{ chosenDevice.isTurnedOn }}</b><br>
+        power consumption: <b>{{ chosenDevice.powerConsumption }} W</b>
       </div>
       <div v-if="chosenDevice.type === 'temperatureSensor'">
-          temperature: <b>{{ chosenDevice.temperature }} ℃</b><br>
+        temperature: <b>{{ chosenDevice.temperature }} ℃</b><br>
       </div>
     </div>
   </div>    
