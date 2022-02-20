@@ -23,7 +23,7 @@
       <div v-if="chosenDevice.type === 'bulb'">
         is turned on: <b>{{ chosenDevice.isTurnedOn }}</b><br>
         brightness: <b>{{ chosenDevice.brightness }}</b><br>
-        color: <b>{{ chosenDevice.color }}</b>
+        color: <b :style="`color: ${chosenDevice.color}`">{{ chosenDevice.color }}</b>
       </div>
       <div v-if="chosenDevice.type === 'outlet'">
         is turned on: <b>{{ chosenDevice.isTurnedOn }}</b><br>
